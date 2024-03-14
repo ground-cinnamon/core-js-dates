@@ -149,8 +149,12 @@ function getCountDaysOnPeriod(dateStart, dateEnd) {
  * '2024-02-02', { start: '2024-02-02', end: '2024-03-02' } => true
  * '2024-02-10', { start: '2024-02-02', end: '2024-03-02' } => true
  */
-function isDateInPeriod(/* date, period */) {
-  throw new Error('Not implemented');
+function isDateInPeriod(date, period) {
+  const startDate = new Date(period.start);
+  const endDate = new Date(period.end);
+  const checkDate = new Date(date);
+
+  return checkDate >= startDate && checkDate <= endDate;
 }
 
 /**
@@ -164,8 +168,20 @@ function isDateInPeriod(/* date, period */) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const d = new Date(date);
+  const year = d.getFullYear().toString();
+  const month = d.getUTCMonth() + 1;
+  const day = d.getUTCDate();
+  const hours = d.getUTCHours();
+  const min = d.getUTCMinutes().toString().padStart(2, 0);
+  const sec = d.getUTCSeconds().toString().padStart(2, 0);
+
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  const formattedHours = hours % 12 || 12;
+
+  return `${month}/${day}/${year}, ${formattedHours}:${min}:${sec} ${ampm}`;
 }
 
 /**
